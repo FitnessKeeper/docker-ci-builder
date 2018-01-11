@@ -9,10 +9,10 @@ for commit in $(git log -10 --pretty=format:"%H"); do
   if [[ $ismerge = 0 ]] ; then
     hasdiff=$(git log -1 --cc --format=''|grep . > /dev/null; echo $?)
     if [[ $hasdiff = 0 ]] ; then
-      [[ $DEBUG ]] && echo "$commit was a merge and contains merge conflicts"
+      [[ $DEBUG ]] && echo "$commit was a merge and contains merge conflicts" >&2
       break
     else
-      [[ $DEBUG ]] && echo "$commit was a merge, and had no merge conflicts, skipping"
+      [[ $DEBUG ]] && echo "$commit was a merge, and had no merge conflicts, skipping" >&2
     fi
     continue
   else
