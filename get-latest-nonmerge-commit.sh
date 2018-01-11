@@ -20,5 +20,5 @@ for commit in $(git log -10 --pretty=format:"%H"); do
   fi
 done
 
-echo $commit
+printf $commit
 exit 0
