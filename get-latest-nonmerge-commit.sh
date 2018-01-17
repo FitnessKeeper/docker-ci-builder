@@ -5,6 +5,17 @@ if [[ "$1" = "-d" || "$1" = "--debug" ]] ; then
 fi
 
 for commit in $(git log -10 --pretty=format:"%H"); do
+  if [[ "$mergecommit" ]] ; then
+    gitdiff=$(git diff $commit | grep . > /dev/null; echo $?)
+    if [[ $gitdiff = 0 ]] ; then
+      [[ $DEBUG ]] && echo "$mergecommit was a non-ff merge, can't skip" >&2
+      commit=$mergecommit
+      break
+    else
+      [[ $DEBUG ]] && echo "$mergecommit was a ff merge, skipping" >&2
+      mergecommit=""
+    fi
+  fi
   ismerge=$(git show --no-patch --format="%P" $commit | grep ' ' > /dev/null; echo $?)
   if [[ $ismerge = 0 ]] ; then
     hasdiff=$(git log -1 --cc --format=''|grep . > /dev/null; echo $?)
@@ -12,7 +23,9 @@ for commit in $(git log -10 --pretty=format:"%H"); do
       [[ $DEBUG ]] && echo "$commit was a merge and contains merge conflicts" >&2
       break
     else
-      [[ $DEBUG ]] && echo "$commit was a merge, and had no merge conflicts, skipping" >&2
+      mergecommit=$commit
+      [[ $DEBUG ]] && echo "$mergecommit had no merge conflicts, considering skipping" >&2
+      continue
     fi
     continue
   else
