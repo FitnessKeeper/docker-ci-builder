@@ -1,6 +1,6 @@
 FROM amazonlinux:2
 
-RUN yum install -y git jq docker python-pip awscli
+RUN yum install -y git jq docker python-pip awscli go zip
 RUN pip install docker-compose dumb-init
 
 COPY scripts/check-dockerhub.sh /usr/local/bin/
