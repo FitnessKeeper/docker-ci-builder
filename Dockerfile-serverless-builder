@@ -1,6 +1,6 @@
 FROM amazonlinux:2
 
-RUN yum install -y git python-pip awscli java-1.8.0-openjdk-devel maven \
+RUN yum install -y git tar python-pip awscli java-1.8.0-openjdk-devel maven \
   && /usr/sbin/alternatives --auto java \
   && /usr/sbin/alternatives --auto javac \
   && yum remove -y java-1.7.0-openjdk \
