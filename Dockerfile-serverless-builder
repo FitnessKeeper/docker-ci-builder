@@ -1,0 +1,12 @@
+FROM amazonlinux:2
+
+RUN yum install -y git python-pip awscli java-1.8.0-openjdk-devel maven \
+  && /usr/sbin/alternatives --auto java \
+  && /usr/sbin/alternatives --auto javac \
+  && yum remove -y java-1.7.0-openjdk \
+  && yum clean all
+RUN pip install dumb-init
+
+COPY scripts/get-latest-nonmerge-commit.sh /usr/local/bin/
+COPY scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
