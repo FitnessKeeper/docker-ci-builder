@@ -29,6 +29,7 @@ RUN yum install -y \
 RUN gradle_version=4.8.1 \
     && wget -c http://services.gradle.org/distributions/gradle-${gradle_version}-all.zip \
     && unzip  gradle-${gradle_version}-all.zip -d /opt \
+    && rm gradle-${gradle_version}-all.zip \
     && ln -s /opt/gradle-${gradle_version} /opt/gradle \
     && printf "export GRADLE_HOME=/opt/gradle\nexport JAVA_HOME=/etc/alternatives/java_sdk\nexport PATH=\$PATH:\$GRADLE_HOME/bin\n" > /etc/profile.d/gradle.sh
 RUN pip install docker-compose dumb-init
