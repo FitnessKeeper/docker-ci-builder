@@ -7,6 +7,8 @@ ENV VAULT_VERSION=0.10.1
 # This is the release of Consul to pull in.
 ENV CONSUL_VERSION=1.0.7
 
+# docker is in extras now
+RUN amazon-linux-extras install docker
 # Java and maven are required for OASIS build (to build scala lambdas).
 RUN yum install -y \
   unzip \
