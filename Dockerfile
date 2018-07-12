@@ -26,6 +26,12 @@ RUN yum install -y \
   && yum remove -y java-1.7.0-openjdk \
   && yum clean all \
   && rm -rf /var/cache/yum
+RUN gradle_version=4.8.1 \
+    && wget -c http://services.gradle.org/distributions/gradle-${gradle_version}-all.zip \
+    && unzip  gradle-${gradle_version}-all.zip -d /opt \
+    && ln -s /opt/gradle-${gradle_version} /opt/gradle \
+    && printf "export GRADLE_HOME=/opt/gradle\nexport JAVA_HOME=/etc/alternatives/java_sdk\nexport PATH=\$PATH:\$GRADLE_HOME/bin\n" > /etc/profile.d/gradle.sh \
+    && source /etc/profile.d/gradle.sh
 RUN pip install docker-compose dumb-init
 
 # Installs node / npm and grunt. Also required for OASIS build (for grunt).
