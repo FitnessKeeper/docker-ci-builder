@@ -4,7 +4,7 @@ if [[ "$1" = "-d" || "$1" = "--debug" ]] ; then
   DEBUG=true
 fi
 
-for commit in $(git log -10 --pretty=format:"%H"); do
+for commit in $(git log -10 --pretty=format:"%H" --topo-order); do
   if [[ "$mergecommit" ]] ; then
     gitdiff=$(git diff $commit | grep . > /dev/null; echo $?)
     if [[ $gitdiff = 0 ]] ; then
