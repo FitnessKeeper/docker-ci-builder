@@ -4,7 +4,10 @@ if [[ "$1" = "-d" || "$1" = "--debug" ]] ; then
   DEBUG=true
 fi
 
+[[ $DEBUG ]] && git log -4 --graph --topo-order | cat
+
 for commit in $(git log -10 --pretty=format:"%H" --topo-order); do
+  [[ $DEBUG ]] && echo "$commit starting processing"
   if [[ "$mergecommit" ]] ; then
     gitdiff=$(git diff $commit | grep . > /dev/null; echo $?)
     if [[ $gitdiff = 0 ]] ; then
