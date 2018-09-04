@@ -12,6 +12,7 @@ RUN amazon-linux-extras install docker
 # Java and maven are required for OASIS build (to build scala lambdas).
 RUN yum install -y \
   unzip \
+  bzip2 \
   wget \
   git \
   tar \
