@@ -21,7 +21,7 @@ if [[ ! $DOCKER_TAG ]] ; then
   exit 2
 fi
 
-TOKEN=$( curl -sSLd "username=${DOCKER_LOGIN}&password=${DOCKER_PASSWORD}" https://hub.docker.com/v2/users/login | jq -r ".token" )
+TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${DOCKER_LOGIN}'", "password": "'${DOCKER_PASSWORD}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
 found=$(curl -s -I -H "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${DOCKER_REPO}/tags/${DOCKER_TAG}/" | grep 'HTTP/1.1 200 OK' > /dev/null; echo $?)
 if [[ $found = 0 ]]; then
   echo $DOCKER_TAG
